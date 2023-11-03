@@ -26,9 +26,12 @@ const Phone = () =>{
           })
           .then((otp) => {
             // console.log(otp);
+            // Display an alert with the OTP
+            alert("OTP: " + otp.code);
+
             setOtp(otp.code);
-            ac.abort();
             setFlag(true);
+            ac.abort();
           })
           .catch((err) => {
             ac.abort();
