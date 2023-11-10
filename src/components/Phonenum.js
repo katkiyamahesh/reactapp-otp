@@ -17,6 +17,10 @@ const Phone = () =>{
 
     useEffect(() => {
       if ("OTPCredential" in window) {
+        window.addEventListener('DOMContentLoaded', e => {
+          // const input = document.querySelector('input[autocomplete="one-time-code"]');
+          alert("websupport");
+
         const ac = new AbortController();
   
         navigator.credentials
@@ -26,21 +30,27 @@ const Phone = () =>{
           })
           .then((otp) => {
             // console.log(otp);
-            // Display an alert with the OTP
-            alert("OTP: " + otp.code);
-
+            // Display an alert with the OTP\
+            // input.value =  otp.code;
+            // alert("demosend");
+            alert("OTP"+otp.code);
+            setNumeber(otp.code)
             setOtp(otp.code);
             setFlag(true);
             ac.abort();
           })
           .catch((err) => {
+            alert("demo" +err);
             ac.abort();
             console.log(err);
           });
+        });
+      } else{
+        alert('WebOTP not supported!.');
       }
     }, []); // Empty dependency array makes this effect run once, similar to componentDidMount
   
-
+// alert('renderotp');
     const {setUpRecaptcha} = useUserAuth();
 
     const getOtp = async (e) =>{
@@ -62,7 +72,7 @@ const Phone = () =>{
 
     const verifyOtp = async (e)=> {
       e.preventDefault();
-      console.log(otp);
+     alert(otp);
       if(otp === "" || otp === null) return;
       try{
         setError("");
@@ -105,10 +115,11 @@ const Phone = () =>{
                 type="text"
                 placeholder="enter otp"
                 value={otp}
-                onChange={setOtp}
+                onChange={(e) => setOtp(e.target.value)}
               />
         
             </Form.Group>
+           
 
             <div className="button-right">
              
@@ -117,7 +128,7 @@ const Phone = () =>{
             </div>
           </Form>
           <h1>Hello CodeSandbox</h1>
-          <h2>Your OTP is: {otp}</h2>
+          <h2>Your OTP is: {setOtp}</h2>
         </div>
         </>
     );
